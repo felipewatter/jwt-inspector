@@ -1,6 +1,6 @@
 # 🛡️ JWT Inspector
 
-![GitHub release](https://img.shields.io/github/v/release/felipewatter/jwt-inspector)
+![GitHub release](https://img.shields.io/github/v/release/felipewatter/jwt-inspector)?include_prereleases
 ![GitHub](https://img.shields.io/github/license/felipewatter/jwt-inspector)
 ![GitHub language count](https://img.shields.io/github/languages/count/felipewatter/jwt-inspector)
 
