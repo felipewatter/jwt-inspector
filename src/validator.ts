@@ -1,5 +1,5 @@
 /** JWT signature verification with pinned algorithm; HS/RS key confusion is prohibited. */
-import {createHmac, createPublicKey, timingSafeEqual, verify as verifySignature, type KeyObject} from 'node:crypto';
+import {createHmac, createPublicKey, timingSafeEqual, verify as verifySignature, KeyObject} from 'node:crypto';
 import {decodeJWT, type DecodedJWT, type Claims} from './decoder';
 
 export type Algorithm = 'HS256' | 'RS256';
