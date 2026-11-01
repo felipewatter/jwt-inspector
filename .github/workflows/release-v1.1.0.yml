@@ -1,0 +1,45 @@
+name: Publish JWT Inspector v1.1.0
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/release-v1.1.0.yml
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    if: github.repository == 'felipewatter/jwt-inspector'
+    name: Create official JWT Inspector v1.1.0 release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout versioned release notes
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+        with:
+          fetch-depth: 0
+      - name: Verify release target ancestry and notes
+        env:
+          RELEASE_COMMIT: 4141aebb7e9969e37329819ff204feda51a57a52
+        shell: bash
+        run: |
+          set -euo pipefail
+          git merge-base --is-ancestor "$RELEASE_COMMIT" HEAD
+          test -s .github/release-notes/v1.1.0.md
+      - name: Publish stable GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_COMMIT: 4141aebb7e9969e37329819ff204feda51a57a52
+        shell: bash
+        run: |
+          set -euo pipefail
+          if gh release view v1.1.0 --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo "Release already exists; refusing to replace it."
+            exit 0
+          fi
+          gh release create v1.1.0 \
+            --repo "$GITHUB_REPOSITORY" \
+            --target "$RELEASE_COMMIT" \
+            --title "JWT Inspector v1.1.0 — Cryptographic Security & Validation Hardening" \
+            --notes-file .github/release-notes/v1.1.0.md \
+            --latest
